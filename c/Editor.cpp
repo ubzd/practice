@@ -1,19 +1,19 @@
-#include <stdio.h>
+ï»¿#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #define OK 1 
 #define ERROR 0
 
-typedef struct Row_table { // ĞĞ±í 
-    char *addr;		       // ´ËĞĞ×Ö·û´®µÄÊ×µØÖ· 
-    int length;	           // ×Ö·û´®µÄ³¤¶È 
+typedef struct Row_table { // è¡Œè¡¨ 
+    char *addr;		       // æ­¤è¡Œå­—ç¬¦ä¸²çš„é¦–åœ°å€ 
+    int length;	           // å­—ç¬¦ä¸²çš„é•¿åº¦ 
     int init_size;
 }Row, RowTable[1 << 8];    /
 
 RowTable row;    
-int next[1 << 8];                     // kmp ÖĞµÄnextÊı×é 
-char *_string = (char *) malloc (1);  // ´æ·ÅÎÄ±¾´®µÄ×Ö·û´® 
-int MAX_ROW = 0;                      // ÎÄ±¾ÖĞµ±Ç°×î´óĞĞ 
+int next[1 << 8];                     // kmp ä¸­çš„nextæ•°ç»„ 
+char *_string = (char *) malloc (1);  // å­˜æ”¾æ–‡æœ¬ä¸²çš„å­—ç¬¦ä¸² 
+int MAX_ROW = 0;                      // æ–‡æœ¬ä¸­å½“å‰æœ€å¤§è¡Œ 
 
 void LoadString() {
     FILE *fp = fopen("i.txt", "r");   
@@ -26,24 +26,24 @@ void LoadString() {
     fclose(fp);
 }
 void InitTable() {
-	row[MAX_ROW].addr = &_string[0];  // ×Ö·û´®µÄÊ×µØÖ·¸øµÚÒ»ĞĞµÄµØÖ·¼ÇÂ¼ 
+	row[MAX_ROW].addr = &_string[0];  // å­—ç¬¦ä¸²çš„é¦–åœ°å€ç»™ç¬¬ä¸€è¡Œçš„åœ°å€è®°å½• 
     for (int i = 0, len = 1; i < strlen(_string); ++i, ++len) { 
-        if (_string[i] == '\n') {     // Èç¹ûÊÇ»Ø³µ£¬ÄÇÃ´ĞĞºÅ¾Í¼ÓÒ» 
+        if (_string[i] == '\n') {     // å¦‚æœæ˜¯å›è½¦ï¼Œé‚£ä¹ˆè¡Œå·å°±åŠ ä¸€ 
             row[MAX_ROW + 1].addr = &_string[i + 1];  
-            row[MAX_ROW].length = len;                // ´ËĞĞµÄ×Ö·û´®³¤¶È 
-            row[MAX_ROW].init_size = len;             // ³õÊ¼·ÖÅäµÄÄÚ´æ´óĞ¡ 
-            MAX_ROW++; len = 0;                       // Ã¿»»Ò»ĞĞ£¬×î´óĞĞÊı¾Í¼ÓÒ»¡£°Ñlen±ä³É 0£¬ÓÃÀ´¼ÇÂ¼ÏÂÒ»ĞĞµÄ³¤¶È 
+            row[MAX_ROW].length = len;                // æ­¤è¡Œçš„å­—ç¬¦ä¸²é•¿åº¦ 
+            row[MAX_ROW].init_size = len;             // åˆå§‹åˆ†é…çš„å†…å­˜å¤§å° 
+            MAX_ROW++; len = 0;                       // æ¯æ¢ä¸€è¡Œï¼Œæœ€å¤§è¡Œæ•°å°±åŠ ä¸€ã€‚æŠŠlenå˜æˆ 0ï¼Œç”¨æ¥è®°å½•ä¸‹ä¸€è¡Œçš„é•¿åº¦ 
         }
     }
 }
 void Traverse() {
-	printf("ĞĞ±íÇé¿ö\n------------------------\n");
-	for (int i = 0; i < MAX_ROW; ++i)                 // ±éÀúÃ¿Ò»ĞĞ£¬i ×î´óÒ²¾ÍÊÇ×î´óĞĞºÅMAX_ROW 
+	printf("è¡Œè¡¨æƒ…å†µ\n------------------------\n");
+	for (int i = 0; i < MAX_ROW; ++i)                 // éå†æ¯ä¸€è¡Œï¼Œi æœ€å¤§ä¹Ÿå°±æ˜¯æœ€å¤§è¡Œå·MAX_ROW 
 		printf("%d %d %d\n", i, row[i].addr, row[i].length);  	
 	
 	puts(""); 
-	printf("ÎÄ±¾ĞÅÏ¢\n------------------------\n");
-	for (int i = 0; i < MAX_ROW; ++i) {	              // ¸ù¾İĞĞ±íµÄĞÅÏ¢£¬°ÑÃ¿Ò»¸ö¶¼Êä³öÀ´ 
+	printf("æ–‡æœ¬ä¿¡æ¯\n------------------------\n");
+	for (int i = 0; i < MAX_ROW; ++i) {	              // æ ¹æ®è¡Œè¡¨çš„ä¿¡æ¯ï¼ŒæŠŠæ¯ä¸€ä¸ªéƒ½è¾“å‡ºæ¥ 
 		printf("%d ", i + 1);                     
 		for (int j = 0; j < row[i].length; ++j) {  
 			putchar(row[i].addr[j]);              
@@ -75,16 +75,16 @@ void KMP_Search(char t_str[], int &r, int &i) {
 		}
 
 	 	if (j >= (int)strlen(t_str)) {         
-			printf("ÕÒµ½ÁË£¡ÔÚµÚ%dĞĞ£¬µÚ%d¸ö×Ö·û\n", r + 1, (i - strlen(t_str)) + 1);
+			printf("æ‰¾åˆ°äº†ï¼åœ¨ç¬¬%dè¡Œï¼Œç¬¬%dä¸ªå­—ç¬¦\n", r + 1, (i - strlen(t_str)) + 1);
 			break;
 		} 
-		if (r == MAX_ROW - 1) puts("Ã»ÓĞÕÒµ½£¡");
+		if (r == MAX_ROW - 1) puts("æ²¡æœ‰æ‰¾åˆ°ï¼");
 		i = 0;                                    
 	} 
 } 
 
 void Search() {
-	puts("ÇëÊäÈëÒª²éÕÒµÄ×Ö·û´®");
+	puts("è¯·è¾“å…¥è¦æŸ¥æ‰¾çš„å­—ç¬¦ä¸²");
 	char t_str[1 << 8], ri;
 	int row_num = 0, str_num = 0;    
 	
@@ -92,28 +92,28 @@ void Search() {
 	fgets(t_str, 1 << 8, stdin);    
 	t_str[strlen(t_str) - 1] = '\0'; 
 
-	do{                                       // Ñ­»·£¬Ö±µ½ÕÒµ½Ï£ÍûµÄÎ»ÖÃ »òÕß µ½×îºó
-		KMP_Search(t_str, row_num, str_num);  // KMPËã·¨¿ªÊ¼£¬´ÓµÚrow_numĞĞµÄµÚstr_num×Ö·ûÎ»ÖÃ¿ªÊ¼ÏòÏÂ²éÕÒ
- 		printf("ÊÇÕâ¸öÃ´£¿ÇëÊäÈë(y »ò n)\n"); // Èç¹û²»ÊÇÏ£ÍûµÄÎ»ÖÃ£¬¾ÍÊäÈën
+	do{                                       // å¾ªç¯ï¼Œç›´åˆ°æ‰¾åˆ°å¸Œæœ›çš„ä½ç½® æˆ–è€… åˆ°æœ€å
+		KMP_Search(t_str, row_num, str_num);  // KMPç®—æ³•å¼€å§‹ï¼Œä»ç¬¬row_numè¡Œçš„ç¬¬str_numå­—ç¬¦ä½ç½®å¼€å§‹å‘ä¸‹æŸ¥æ‰¾
+ 		printf("æ˜¯è¿™ä¸ªä¹ˆï¼Ÿè¯·è¾“å…¥(y æˆ– n)\n"); // å¦‚æœä¸æ˜¯å¸Œæœ›çš„ä½ç½®ï¼Œå°±è¾“å…¥n
 		scanf("%c", &ri);
 		getchar();
 		if (ri == 'y') break;
-	} while (row_num < MAX_ROW);             // row_num »¹ÊÇĞ¡ÓÚ×î´óĞĞºÅ£¬ÄÇÃ´¾Í½Ó×ÅÑ­»·
+	} while (row_num < MAX_ROW);             // row_num è¿˜æ˜¯å°äºæœ€å¤§è¡Œå·ï¼Œé‚£ä¹ˆå°±æ¥ç€å¾ªç¯
 }
 
 void InsertRow() {
 	int r;
 	char *in = (char *) malloc (1 << 8);    
 	
-	puts("ÇëÊäÈëµÚ¼¸ĞĞ");
+	puts("è¯·è¾“å…¥ç¬¬å‡ è¡Œ");
 	scanf("%d", &r);                       
-	puts("ÇëÊäÈëÊı¾İ");
+	puts("è¯·è¾“å…¥æ•°æ®");
 	getchar();
 	fgets(in, 1 << 8, stdin);             
 	in[strlen(in) - 1] = '\n';               
 	
-	for (int i = MAX_ROW; i >= r; --i){      // ÔÚĞĞ±íÖĞ£¬ÒÆ¶¯ËùÓĞÕâÒ»ĞĞÖ®ºóµÄÊı¾İ
-		row[i + 1].addr = row[i].addr;       // ºóÒ»¸ö µÈÓÚ Ç°Ò»¸ö£¬ Ö±µ½ÒªÊäÈëµÄÄÇÒ»¸öĞĞÎªÖ¹
+	for (int i = MAX_ROW; i >= r; --i){      // åœ¨è¡Œè¡¨ä¸­ï¼Œç§»åŠ¨æ‰€æœ‰è¿™ä¸€è¡Œä¹‹åçš„æ•°æ®
+		row[i + 1].addr = row[i].addr;       // åä¸€ä¸ª ç­‰äº å‰ä¸€ä¸ªï¼Œ ç›´åˆ°è¦è¾“å…¥çš„é‚£ä¸€ä¸ªè¡Œä¸ºæ­¢
 		row[i + 1].length = row[i].length;
 	}
 	row[r].addr = in;                     
@@ -124,12 +124,12 @@ void InsertRow() {
 }
 
 void InsertStr() {
-	puts("ÇëÊäÈëµÚ¼¸ĞĞ£¬µÚ¼¸¸ö×Ö·û£¬Êı¾İ½«ÔÚ²åÈëÔÚÕâÖ®ºó");	
+	puts("è¯·è¾“å…¥ç¬¬å‡ è¡Œï¼Œç¬¬å‡ ä¸ªå­—ç¬¦ï¼Œæ•°æ®å°†åœ¨æ’å…¥åœ¨è¿™ä¹‹å");	
 	int row_num, str_num, len; 
 	char *in = (char *) malloc (1 << 8);
 	
 	scanf("%d%d", &row_num, &str_num);  
-	puts("ÇëÊäÈë×Ö·û´®");
+	puts("è¯·è¾“å…¥å­—ç¬¦ä¸²");
 	getchar();
 	fgets(in, 1 << 8, stdin);
 	in[strlen(in) - 1] = '\0';
@@ -172,20 +172,20 @@ void InsertStr() {
 void Insert() {
 	char c;
 	
-	puts("ÇëÊäÈëÃüÁî£º²åÈëÕûĞĞ(r)£»²åÈë×Ö·û´®(s)");
+	puts("è¯·è¾“å…¥å‘½ä»¤ï¼šæ’å…¥æ•´è¡Œ(r)ï¼›æ’å…¥å­—ç¬¦ä¸²(s)");
 	getchar();
 	scanf("%c", &c);
 	
 	switch(c) {
-		case 'r' : InsertRow(); break;  // ²åÈëÕûĞĞ 
-		case 's' : InsertStr(); break;  // ²åÈë×Ö·û´® 
+		case 'r' : InsertRow(); break;  // æ’å…¥æ•´è¡Œ 
+		case 's' : InsertStr(); break;  // æ’å…¥å­—ç¬¦ä¸² 
 		default : break;
 	}
 }
 
 void DeleteRow() {
 	int row_num;
-	puts("ÇëÊäÈëÒªÉ¾³ıµÄĞĞºÅ");
+	puts("è¯·è¾“å…¥è¦åˆ é™¤çš„è¡Œå·");
 	scanf("%d", &row_num);
 	
 	for (int i = row_num; i < MAX_ROW - 1; ++i){
@@ -200,7 +200,7 @@ void DeleteRow() {
 
 void DeleteStr(){
 	int row_num, str_num, del_len, i;
-	puts("ÇëÊäÈëÒªÉ¾³ıµÄĞĞºÅ¡¢Î»ÖÃºÍ³¤¶È");
+	puts("è¯·è¾“å…¥è¦åˆ é™¤çš„è¡Œå·ã€ä½ç½®å’Œé•¿åº¦");
 	scanf("%d%d%d", &row_num, &str_num, &del_len);
 	for (i = str_num + del_len; i < row[row_num].length; ++i)
 		row[row_num].addr[str_num++] = row[row_num].addr[i];
@@ -213,7 +213,7 @@ void DeleteStr(){
 
 void Delete() {
 	char c;
-	puts("ÇëÊäÈëÃüÁî£ºÉ¾³ıÕûĞĞ(a)£»É¾³ı×Ö·û´®(s)");
+	puts("è¯·è¾“å…¥å‘½ä»¤ï¼šåˆ é™¤æ•´è¡Œ(a)ï¼›åˆ é™¤å­—ç¬¦ä¸²(s)");
 	getchar();
 	scanf("%c", &c); 
 	
@@ -230,18 +230,18 @@ void Do() {
     InitTable(); 
     Traverse(); 
     
-	puts("ÇëÊäÈëÃüÁî£º²éÕÒ(s)£»²åÈë(i)£»É¾³ı(d)£»ÍË³ö(e)");
+	puts("è¯·è¾“å…¥å‘½ä»¤ï¼šæŸ¥æ‰¾(s)ï¼›æ’å…¥(i)ï¼›åˆ é™¤(d)ï¼›é€€å‡º(e)");
  	char c; 
  	int ex = 0;
     while (scanf("%c", &c)) { 
     	switch(c){
-    		case 's' : Search(); break;      //²éÕÒº¯Êı                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   break;
-    		case 'i' : Insert(); break;      //²åÈëº¯Êı 
-    		case 'd' : Delete(); break;      //É¾³ıº¯Êı 
-    		case 'e' : ex = 1; break;        //Èç¹ûÍË³ö£¬°Ñex±ê¼Ç±äÎª 1 
+    		case 's' : Search(); break;      //æŸ¥æ‰¾å‡½æ•°                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   break;
+    		case 'i' : Insert(); break;      //æ’å…¥å‡½æ•° 
+    		case 'd' : Delete(); break;      //åˆ é™¤å‡½æ•° 
+    		case 'e' : ex = 1; break;        //å¦‚æœé€€å‡ºï¼ŒæŠŠexæ ‡è®°å˜ä¸º 1 
 	    }
    		if (ex) break;        
-   		printf("ÇëÊäÈëÃüÁî£º²éÕÒ(s)£»²åÈë(i)£»É¾³ı(d);ÍË³ö(e)¡£\n");
+   		printf("è¯·è¾“å…¥å‘½ä»¤ï¼šæŸ¥æ‰¾(s)ï¼›æ’å…¥(i)ï¼›åˆ é™¤(d);é€€å‡º(e)ã€‚\n");
     }
 }
 
