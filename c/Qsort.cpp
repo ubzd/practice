@@ -35,23 +35,3 @@ int main() {
 	return 0;
 }
 
-
-
-procedure Sort(l,r:longint);
-var
-  i,j,x,tmp: longint;
-begin
-  i:=l; j:=r;
-  x:=a[l+random(r-l+1)];
-  repeat
-    while a[i] < x do inc(i);
-    while x < a[j] do dec(j);
-    if i <= j then
-    begin
-      tmp:=a[i]; a[i]:=a[j]; a[j]:=tmp;
-      inc(i); dec(j);
-    end;
-  until i > j;
-  if l < j then Sort(l,j);
-  if i < r then Sort(i,r);
-end;
